@@ -1,5 +1,5 @@
 let things = [];
-let numThings = 20;
+let numThings = 5000;
 
 let x=0;
 let y=0;
@@ -17,10 +17,10 @@ function setup() {
 
 // The draw function is called over and over again really fast by p5
 function draw() {
-  background(255);
+  background(51,69,90);
   noFill();
   
-  for(let i =0; i< things.length;i++){
+  for(let i =0; i< things.length;i+=1){
     things[i].update();
   }
 //   x+=1;
@@ -34,7 +34,7 @@ class Line{
   constructor(x,y,count){
     this.count=count;
     this.position = createVector(x,y);
-    this.velocity = createVector(random(-5,5),random(-5,5));
+    this.velocity = createVector(random(-20,20),random(-20,20));
   }
 
   update(){
@@ -48,9 +48,9 @@ class Line{
       this.velocity.y *= -1;
     }
 
-    rotate(sin(frameCount+this.count)*100)
-    rect(0,0,600-this.position.x*3,600-this.count*3,200-this.count);
-    stroke(random(255));
+    rotate(sin(frameCount+this.count))
+    ellipse(windowWidth,windowHeight,600-this.position.x*3,600-this.position.y*3,200-this.count);
+    stroke(random(50),0,random(122,255));
   }
 }
 
