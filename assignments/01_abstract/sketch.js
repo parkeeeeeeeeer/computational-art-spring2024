@@ -52,10 +52,6 @@ class Line{
     stroke(random(50),0,random(122,255));
   }
 }
-//   x+=1;
-//   y+=1;
-//   sinX=sin(x);
-//   sinY=sin(y);
-//   rect(sinX+200,sinY+200,50,50);
+
 }
- */
+
