@@ -5,7 +5,7 @@ let numThings = 5000;
 let x=0;
 let y=0;
 
-
+// 
 // p5 calls this function right away when the webpage is loaded
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -19,6 +19,7 @@ function setup() {
 
 // The draw function is called over and over again really fast by p5
 function draw() {
+  // Backround is dark grey
   background(51,69,90);
   noFill();
   
