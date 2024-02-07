@@ -4,19 +4,30 @@ function setup() {
   colorMode(HSB);
 }
 
-// Thursday play with map 
-// Try to aply noise
-s = 200;
+
 
 function draw() {
-  background(0,0,100);
-  let hue= map(mouseY,0,height,0,360);
-  let hueWidth=map(mouseX,0,width,0,360);
-  fill(hue,hueWidth,100);
-  heart(width/2,height/2,s);
+  background(255);
+  
+  
+  fillscreen();
 }
 
+function fillscreen(){
+  let t = 0;
+  let r =.005;
+  for (let y = 0; y < height; y += 5) {
+    for (let x = 0; x < width; x += 5) {
+      noFill();
+      let n = noise(x*r,y*r,t);
+      stroke(random(255));
+      heart(x*n+y, y*n+x, 5*n*(y+x));
+    }
+    t+=.0003
+  }
+}
 
+// from https://editor.p5js.org/Mithru/sketches/Hk1N1mMQg
 function heart(x, y, size) {
   beginShape();
   vertex(x, y);
@@ -24,3 +35,5 @@ function heart(x, y, size) {
   bezierVertex(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
   endShape(CLOSE);
 }
+
+
