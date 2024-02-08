@@ -6,7 +6,7 @@ let numhearts = 6000;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
+  colorMode(HSB,100);
   
 }
 
@@ -18,14 +18,12 @@ function draw() {
   for(let y =0; y< height;y+=size){
     for(let x=0; x<width;x+=size){
       let n = noise(t);
-      let hue =map(n,0,1,0,255);
-      let hue2=map(n+20,0,1,0,255);
-      let hue3=map(n+40,0,1,0,255);
+      let hue =map(n, 0, 1, 0, 100);
 
       noFill(); 
-      stroke(hue+10,hue2,hue3);
+      stroke(hue,100,100);
       heart(x,y,size);
-      rotate(frameCount*n);
+      rotate(frameCount/n*100);
     }
     t =0.005;
   }
@@ -38,5 +36,3 @@ function heart(x, y, size) {
   bezierVertex(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
   endShape(CLOSE);
 }
-
-
