@@ -22,14 +22,14 @@ function draw() {
       let n2 = noise(t,x*rez,y*rez);
       let hue =map(n,0,1,0,255);
       let hue2=map(n1,0,1,0,255);
-      let hue3=map(n1,0,1,0,255);
+      let hue3=map(n2,0,1,0,255);
 
       noFill(); 
       stroke(hue,hue2,hue3);
       // rotate(tan(frameCount+n*y));
       heart(x,y,size);
     }
-    t+=0.0003;
+    t
   }
 }
 
