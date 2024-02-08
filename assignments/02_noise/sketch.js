@@ -1,29 +1,35 @@
+let t = 0;
+let r =.005;
+
+let hearts = [];
+let numhearts = 6000;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  colorMode(HSB);
+
+  
 }
-
-
 
 function draw() {
-  background(255);
-  
-  
-  fillscreen();
-}
-
-function fillscreen(){
   let t = 0;
-  let r =.005;
-  for (let y = 0; y < height; y += 5) {
-    for (let x = 0; x < width; x += 5) {
-      noFill();
-      let n = noise(x*r,y*r,t);
-      stroke(random(255));
-      heart(x*n+y, y*n+x, 5*n*(y+x));
+  let rez=0.5;
+  let size = 5;
+  background(255);
+  for(let y =0; y< height;y+=size){
+    for(let x=0; x<width;x+=size){
+      let n = noise(x*rez,y*rez, t);
+      let n1 = noise(x*rez, t, y*rez);
+      let n2 = noise(t,x*rez,y*rez);
+      let hue =map(n,0,1,0,255);
+      let hue2=map(n1,0,1,0,255);
+      let hue3=map(n1,0,1,0,255);
+
+      noFill(); 
+      stroke(hue,hue2,hue3);
+      // rotate(tan(frameCount+n*y));
+      heart(x,y,size);
     }
-    t+=.0003
+    t+=0.0003;
   }
 }
 
