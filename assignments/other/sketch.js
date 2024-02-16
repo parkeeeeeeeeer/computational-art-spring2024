@@ -1,38 +1,53 @@
-let t = 0;
-let r =.005;
 
-let hearts = [];
-let numhearts = 6000;
+let r = 100;
+
+let dots=[];
+let numDots=100;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  colorMode(HSB,100);
-  
+  let t = 0;
+  for (let i=0;i<numDots;i++){
+    let n = noise(t);
+    let x = map(i,0,numDots,0,width);
+    let y = height/2;
+    dots.push(new Dot(x*n,y*n,r*n));
+    t+=0.005
+  }
 }
 
 function draw() {
-  let t = 0;
-  let rez=0.5;
-  let size = 5;
   background(255);
-  for(let y =0; y< height;y+=size){
-    for(let x=0; x<width;x+=size){
-      let n = noise(t);
-      let hue =map(n, 0, 1, 0, 100);
-
-      noFill(); 
-      stroke(hue,100,100);
-      heart(x,y,size);
-      rotate(frameCount/n*100);
-    }
-    t =0.005;
+  for (let dot of dots){
+      dot.update();
+      dot.draw();
   }
+  
 }
-// from https://editor.p5js.org/Mithru/sketches/Hk1N1mMQg
-function heart(x, y, size) {
-  beginShape();
-  vertex(x, y);
-  bezierVertex(x - size / 2, y - size / 2, x - size, y + size / 3, x, y + size);
-  bezierVertex(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
-  endShape(CLOSE);
+class Dot{
+  constructor(x,y,r){
+    this.radius=r;
+    this.position = createVector(x,y);
+    this.velocity = createVector(random(-20,20),random(-20,20));
+    
+  }
+  draw(){
+    push();
+    noFill();
+    stroke(100,100,200);
+    translate(this.position.x,this.position.y);
+    rect(0,0,this.radius,this.radius,2);
+    pop();
+  }
+  update(){
+    this.position.add(this.velocity);
+    // This code is from 1/22/2024 class.
+    if (this.position.x > width || this.position.x < 0) {
+      this.velocity.x *= -1;
+    }
+  
+    if (this.position.y > height || this.position.y < 0) {
+      this.velocity.y *= -1;
+    }
+  }
 }
