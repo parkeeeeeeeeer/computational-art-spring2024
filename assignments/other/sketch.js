@@ -1,53 +1,102 @@
 
-let r = 100;
-
-let dots=[];
-let numDots=100;
-
+let slider;
+let fan;
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  let t = 0;
-  for (let i=0;i<numDots;i++){
-    let n = noise(t);
-    let x = map(i,0,numDots,0,width);
-    let y = height/2;
-    dots.push(new Dot(x*n,y*n,r*n));
-    t+=0.005
-  }
+  
+  // Created slider
+  slider = createSlider(0,100);
+  slider.position(width/2, 10);
+  slider.size(200);
+  angleMode(DEGREES);
+  fan = new Fan(0,0,200);
 }
 
 function draw() {
-  background(255);
-  for (let dot of dots){
-      dot.update();
-      dot.draw();
-  }
-  
-}
-class Dot{
-  constructor(x,y,r){
-    this.radius=r;
-    this.position = createVector(x,y);
-    this.velocity = createVector(random(-20,20),random(-20,20));
+    background(255);
+    translate(width/2,height/2);
     
+    let size = 200;
+    //pattern(size);
+    fan.make();
+}
+
+class Fan{
+
+  constructor(x,y,size){
+    this.x=x;
+    this.y=y;
+    this.size = size;
+
   }
-  draw(){
-    push();
-    noFill();
-    stroke(100,100,200);
-    translate(this.position.x,this.position.y);
-    rect(0,0,this.radius,this.radius,2);
-    pop();
+  make(){
+
+    for (var i = 0; i < this.size; i++) {
+  
+      rotate(frameCount / slider.value());
+    
+      beginShape()
+      for (var j = 0; j < 360; j += this.size) {
+        var rad = i * 3;
+        var x = rad * cos(j);
+        var y = rad * sin(j);
+        var z = sin(frameCount * 2 + i * 5) * 50;
+    
+        vertex(x, y);
+      }
+      endShape(CLOSE)
+    }
+
   }
   update(){
-    this.position.add(this.velocity);
-    // This code is from 1/22/2024 class.
-    if (this.position.x > width || this.position.x < 0) {
-      this.velocity.x *= -1;
-    }
-  
-    if (this.position.y > height || this.position.y < 0) {
-      this.velocity.y *= -1;
-    }
+    rotate(frameCount / slider.value());
   }
 }
+
+function pattern(size){
+  noFill()
+  
+  
+  for (var i = 0; i < 50; i++) {
+  
+    // rotate(frameCount / slider.value());
+  
+    beginShape()
+    for (var j = 0; j < 360; j += size) {
+      var rad = i * 3;
+      var x = rad * cos(j);
+      var y = rad * sin(j);
+      var z = sin(frameCount * 2 + i * 5) * 50;
+  
+      vertex(x, y);
+    }
+    endShape(CLOSE)
+  }
+}
+function shape(length,num){
+  noFill();
+  beginShape();
+  for(let i =0;i<359;i+=360/num){
+   var x = length* cos(i);
+   var y = length* sin(i);
+   vertex(x,y); 
+  }
+  endShape(CLOSE);
+}
+function curvedShape(length,num){
+  noFill();
+  beginShape();
+  for(let i =0;i<359;i+=360/num){
+   var x = length* cos(i);
+   var y = length* sin(i);
+   curveVertex(x,y); 
+  }
+  endShape(CLOSE);
+}
+
+// Extra
+// rotate(frameCount/random(200,5000)); 
+// triangle(0,0,0,startSize*n,startSize*n, startSize*n);
+
+
+
