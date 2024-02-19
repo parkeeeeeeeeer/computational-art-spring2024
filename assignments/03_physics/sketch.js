@@ -75,14 +75,14 @@ class Pen{
     star(this.pos.x,this.pos.y,this.ballSize,this.ballSize/4,5);
   }
   update(){
-    let gravity =.2;
+    let gravity =.4;
     this.angleA=((-1*gravity)/this.r) *(sin(this.angle));
     this.angleV+= this.angleA;
     this.angle+=this.angleV;
     this.angleV*=this.dampen;
-    // let rotateSpeed = 1000;
-    // rotate(frameCount/rotateSpeed);
-    // rotateSpeed +=gravity;
+    let rotateSpeed = 1000;
+    rotate(frameCount/rotateSpeed);
+    rotateSpeed +=gravity;
   
   }
 }
