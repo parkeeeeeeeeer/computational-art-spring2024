@@ -1,25 +1,59 @@
 // This class uses the ellipse shape with only the outline. 
 class Ripple{
-  constructor(x,y,count){
+  constructor(x,y,radius){
     this.x=x;
     this.y=y;
-    this.radius=random(10,50);
-    this.radiusMax = random(75, 400);
-    this.hue = random(360);
+    this.radius=radius;
+    this.radiusMax = random(this.radius,this.radius*3);
+    this.hue = random(140,190);
   }
   
   update(){
     noFill();
-    stroke(this.hue);
+    stroke(15,90,this.hue);
     this.radius+=1;
-    circle(this.x,this.y,this.radius);
+    
+    ellipse(this.x,this.y,this.radius*3,this.radius*2);
 
     // if the radius of the ripple is 
     if (this.radiusMax<this.radius) {
       this.destroy = true;
     }
 
-    // this.radius -= 0.1;
+    
+  }
+  show(){
+    ellipse(this.x,this.y,this.radius,this.radius);
+
   }
   
+}
+
+class Rain{
+  constructor(x,y,radius,ground,length){
+    this.pos = createVector(x,y);
+    this.vel=createVector();
+    this.radius = radius;
+    this.length=length;
+    this.ground =ground;
+    this.speed=.51;
+  }
+  
+  update(){
+    this.pos.add(this.speed);
+
+    if (this.pos.y=this.ground) {
+      this.destroy = true;
+    }
+
+    
+  }
+  show(){
+    
+    stroke(0);
+    strokeWeight(this.radius);
+    line(this.pos.x,this.pos.y,this.pos.x,this.pos.y-this.length);
+
+  }
+
 }
