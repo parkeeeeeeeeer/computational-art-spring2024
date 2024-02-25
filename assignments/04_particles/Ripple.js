@@ -30,30 +30,66 @@ class Ripple{
 }
 
 class Rain{
-  constructor(x,y,radius,ground,length){
-    this.pos = createVector(x,y);
-    this.vel=createVector();
-    this.radius = radius;
-    this.length=length;
-    this.ground =ground;
-    this.speed=.51;
+  constructor(x,y){
+    this.rippley=y;
+    this.x=x;
+    this.y=y;
+    this.hitGround=false;
+    this.length=random(10,50);
+    this.ground =random(height/2,height);
+    this.speed=.5;
+    this.ripples=[];
+
+    this.radius = random(10);
+    this.rsLifeTime=random(30,200);
+
   }
   
-  update(){
-    this.pos.add(this.speed);
+  update(){ 
 
-    if (this.pos.y=this.ground) {
-      this.destroy = true;
+    if(this.rippley=this.ground){
+      this.hitGround=true;
+      this.y=10000;
+      this.show();
+    }
+    else{
+      this.y+=this.speed;
+      this.rippley+=this.speed;
+      stroke(0);
+      this.show();
+
     }
 
-    
+    if (this.hitGround){
+      this.makeRipple();
+
+    }
+
+
+    for (let ripple of this.ripples) {
+      ripple.show();
+      ripple.update();
+    }
+
+    for (let i = this.ripples.length - 1; i >= 0; i--) {
+      if (this.ripples[i].destroy) {
+          this.ripples.splice(i, 1);
+      }
   }
+  }
+
   show(){
     
-    stroke(0);
     strokeWeight(this.radius);
-    line(this.pos.x,this.pos.y,this.pos.x,this.pos.y-this.length);
+    line(this.x, this.y- this.length, this.x, this.y);
 
   }
 
+  makeRipple(){
+    noFill();
+    for (let i=0;i<10;i++){
+        this.ripples.push(new Ripple(this.x, this.rippley,this.radius));
+    }
+  }
+  
 }
