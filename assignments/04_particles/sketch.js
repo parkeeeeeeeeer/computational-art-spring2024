@@ -4,8 +4,8 @@ let rippleSystem=[];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  for (let i=0;i<200;i++){
-    rippleSystem.push(new Rain(random(width),0));
+  for (let i=0;i<20;i++){
+    rippleSystem.push(new Rain(random(10)));
   }
   
 }
@@ -27,6 +27,3 @@ function draw() {
 
 
 }
-// function mousePressed(){
-//   rippleSystem.push(new RippleSystem(mouseX,mouseY));
-// }

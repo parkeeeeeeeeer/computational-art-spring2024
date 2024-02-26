@@ -30,65 +30,62 @@ class Ripple{
 }
 
 class Rain{
-  constructor(x,y){
+  constructor(y){
     this.rippley=y;
-    this.x=x;
+    this.x=random(width);
     this.y=y;
     this.hitGround=false;
-    this.length=random(10,50);
-    this.ground =random(height/2,height);
-    this.speed=.5;
+    this.length=random(10,20);
+    this.ground =random(height/2,height-10);
+   
+    this.speed=4.1;
+    
     this.ripples=[];
-
+    this.time=random(10,40);
+   
     this.radius = random(10);
     this.rsLifeTime=random(30,200);
 
   }
   
   update(){ 
+    this.y+=this.speed;
+    console.log(this.y)
+    this.rippley+=this.speed;
+    this.show();
 
-    if(this.rippley=this.ground){
-      this.hitGround=true;
+    if(this.y>this.ground){
       this.y=10000;
-      this.show();
-    }
-    else{
-      this.y+=this.speed;
-      this.rippley+=this.speed;
-      stroke(0);
-      this.show();
-
-    }
-
-    if (this.hitGround){
       this.makeRipple();
-
-    }
-
-
-    for (let ripple of this.ripples) {
-      ripple.show();
-      ripple.update();
-    }
-
-    for (let i = this.ripples.length - 1; i >= 0; i--) {
-      if (this.ripples[i].destroy) {
-          this.ripples.splice(i, 1);
+      for (let i=0;i<this.time;i++){
+        for (let ripple of this.ripples) {
+          ripple.show();
+          ripple.update();
+        }
+        // this is so it does not excede ripple radius
+        for (let i = this.ripples.length - 1; i >= 0; i--) {
+          if (this.ripples[i].destroy) {
+              this.ripples.splice(i, 1);
+          }
+        }
       }
-  }
+    
+    }
   }
 
   show(){
-    
+    // console.log(this.y);
+    stroke(100);
+    fill(0);
     strokeWeight(this.radius);
-    line(this.x, this.y- this.length, this.x, this.y);
+    line(this.x, this.y, this.x, this.y+this.length);
 
   }
 
   makeRipple(){
     noFill();
-    for (let i=0;i<10;i++){
-        this.ripples.push(new Ripple(this.x, this.rippley,this.radius));
+    for (let i=0;i<20;i++){
+        this.ripples.push(new Ripple(this.x, this.ground,this.radius));
     }
   }
   
