@@ -5,24 +5,30 @@ function setup() {
 
 function draw() {
     background(0);
-    let t=0;
+    // Setting noise for the y
+    let yt=0;
+    // Length of each square
     let length = 50;;
-    let color = random(255);
+    // Creating Grid
+
     for(let y=0;y<innerHeight;y+=length){
+        // Setting noise for the x
+        let xt=0;
         for(let x=0;x<width;x+=length){
-            // rotate(frameCount/6);
+            let r = noise(xt, yt) * 255;
             rect(x,y,length,length);
             push();
             translate(x+length/2,y+length/2);
-            stroke(20,80,color,200);
-            shape(25*noise(t),25*noise(t));
+            stroke(20,80,r,r);
+            curvedShape(25*noise(xt,yt),25*noise(xt,yt));
             pop();
-            t+=.3;
+            xt+=.3;
         }
+        yt+=.3;
     }
 
 }
-
+// This is the shape making function.
 function shape(length,num){
     noFill();
     beginShape();
@@ -37,8 +43,8 @@ function shape(length,num){
     noFill();
     beginShape();
     for(let i =0;i<360;i+=360/num){
-     var x = length* tan(i);
-     var y = length* tan(i);
+     var x = length* cos(i);
+     var y = length* sin(i);
      curveVertex(x,y); 
     }
     endShape(CLOSE);
