@@ -1,116 +1,71 @@
 let fishy = [];
-let numFish = 10;
+let numFish = 1;
 let target;
 
-
-let cellWidth;
-let cellHeight;
+let coral=[];
+let numCoral=20;
 
 let rows,cols;
 let size =20;
 let terainVal=[];
 let flowField=[];
+
 let t=0;
 let waterImg;
 
 function setup() {
-  createCanvas(600, 600,WEBGL);
+  createCanvas(600, 600);
+  pg = createGraphics(width, height);
   angleMode(DEGREES);
 
-  cellWidth = width / size;
-  cellHeight = height / size;
-  let landscapeNum=width+height;
-  let factor=100;
 
-  flowField = new Array(cel);
-  numBlocks = (landscapeNum/size)+1;
-
-  let xOff = 0;
-  for (let x=0; x<numBlocks; x++){ 
-    flowField[x]=[];
-    let yOff=0;
-    for (let y=0;y<numBlocks; y++){
-      terainVal[x][y]=new Cell;
-      yOff+=0.1;
-    }
-    xOff+=.1;
-  }
-
-  let xoff = 0;
-  for (let x=0; x<numBlocks; x++){ 
-    terainVal[x]=[];
-    flowField[x]=[];
-    let yoff=0;
-    for (let y=0;y<numBlocks; y++){
-      terainVal[x][y]=map(noise(xoff,yoff),0,1,-factor,factor);
-      yoff+=0.1;
-    }
-    xoff+=.1;
-  }
-  
-  target = createVector(width/4, height/2);
+  // target = createVector(width/4, height/2);
   for(let i = 0; i < numFish; i++) {
-    fishy.push(new Fish(random(width), random(height)));
+    fishy.push(new Fish(random(width), random(height),random(10,40)));
   }
+
+  for(let i = 0; i < numCoral; i++) {
+    coral.push(new Coral(random(width), random(height/1.5,height)));
+  }
+  console.log(coral);
+
+  // background
+  for (let xIndex = 0; xIndex < width*4; xIndex+=10) {
+    for (let yIndex = 0; yIndex < height*2; yIndex+=10) {
+      if ((yIndex<height/1.5)){
+        pg.fill(0,map(noise(xIndex,yIndex),0,1,100,150),map(noise(xIndex,yIndex),0,1,150,255));
+        pg.stroke(0,map(noise(xIndex,yIndex),0,1,100,150),map(noise(xIndex,yIndex),0,1,150,255));
+    
+        pg.rect(xIndex,yIndex,size,size);
+      }
+      else{
+        let r = map(noise(xIndex,yIndex),0,1,225,255);
+        let g = map(noise(xIndex,yIndex),0,1,190,220);
+        let b= map(noise(xIndex,yIndex),0,1,144,200);
+        pg.stroke(r, g, b);
+        pg.fill(r, g, b);
+        pg.rect(xIndex,yIndex,size,size);
+        
+      }
+      
+    }
+  }
+
 }
 
 function draw() {
   background(0,100,200);
+  image(pg, 0, 0);
 
 
-  // noFill();
-
-  // inspired and adapted from https://www.youtube.com/watch?v=IKB1hWWedMk
-  
-  rotateX(60); 
-  
-  // fill(r, g, b);
-  translate(-width,-height/2);
-  for (let y=0; y<numBlocks; y++){ 
-    beginShape(TRIANGLE_STRIP);
-    for (let x=0;x<numBlocks; x++){
-      let r = map(noise(x,y),0,1,225,255);
-      let g = map(noise(x,y),0,1,190,220);
-      let b= map(noise(x,y),0,1,144,200);
-      stroke(r, g, b);
-      fill(r, g, b);
-      vertex(x*size,y*size,terainVal[x][y]);
-      vertex(x*size,(y+1)*size,terainVal[x][y+1]);
-    
-    }
-    endShape();
-  }
-  t+=.01;
-
-  // translate(-width,-height);
-
-  for (let xIndex = 0; xIndex < numBlocks; xIndex++) {
-    for (let yIndex = 0; yIndex < numBlocks; yIndex++) {
-      flowField[xIndex][yIndex].update();
-      flowField[xIndex][yIndex].show();
-    }
-  }
-  
-}
-
-function makeFish(){
   for (let fish of fishy) {
+    // console.log(fish);
     fish.update();
     fish.show();
   }
+  // for (let c of coral) {
+  //   // console.log(fish);
+  //   c.show();
+  // }
 }
 
-function branch(len) {
-  line(0, 0, 0, -len);
-  translate(0, -len);
-  if (len > 4) {
-    push();
-    rotate(random(360));
-    branch(len * 0.67);
-    pop();
-    push();
-    rotate(-random(360));
-    branch(len * 0.67);
-    pop();
-  }
-}
