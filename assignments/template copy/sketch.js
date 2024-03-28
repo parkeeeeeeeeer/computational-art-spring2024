@@ -1,35 +1,64 @@
+let res;
+let x, y;
+let bnc, spd;
 
 function setup() {
-    createCanvas(600,600);
-    angleMode(DEGREES);
-    frameRate(6);
-
+	createCanvas(windowWidth * 0.95, windowHeight * 0.95);
+	noCursor();
+	res = 20;
+	spd = 10;
+	x = width / res;
+	y = height / res;
+	bnc = 0;
 }
 
 function draw() {
-    background(255);
-    let size =20;
-    stroke(0);
-    translate(width/2,height/2);
+	background(255);
+
+    translate(width/2,height);
+
+    // push()
+    // fill(0);
+    // translate(width/2,height);
+    // branch(10);
+    // pop()
+
+
+    // push()
+    // translate(width/2,height);
+    // rotate(PI/4);
+    // branch(10)
+    // pop();
+
+    // push()
+    // translate(width/2,height);
+    // rotate(-PI/4);
+    // branch(10);
+    // pop();
+
+    branch(20);
+
     
-    branch(size);
+
+    rotate(PI/4);
+    branch(20);
+
+    rotate(-PI);
+    branch(20);
+
 }
 
-// https://editor.p5js.org/YuanHau/sketches/ByvYWs9yM
 function branch(len) {
-    rotate(90);
-    let size=random(len);
-    ellipse(0,0,size,size);
-//   translate(0, -len);
-
-  if (len > 10) {
-    push();
-    translate(random(-len,-len/2),random(-len,-len/2));
-    branch(len * 0.75)
-    pop();
-    push();
-    translate(random(-len,-len/2),random(-len,-len/2));
-    branch(len * 0.75)
-    pop();  
-  }
+    line(0, 0, 0, -len);
+    translate(0, -len);
+    if (len > 2) {
+        push();
+        rotate(20);
+        branch(len * 0.67);
+        pop();
+        push();
+        rotate(-20);
+        branch(len * 0.67);
+        pop();
+    }
 }

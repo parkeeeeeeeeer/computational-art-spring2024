@@ -1,14 +1,21 @@
 let fishy = [];
-let numFish = 1;
+let numFish = 5;
 let target;
 
 let coral=[];
-let numCoral=20;
+let numCoral=2;
 
-let rows,cols;
+let bubbles=[];
+let numBubbles=5;
+
+
 let size =20;
+
+let res;
+let x, y;
+let bnc, spd;
+
 let terainVal=[];
-let flowField=[];
 
 let t=0;
 let waterImg;
@@ -19,15 +26,21 @@ function setup() {
   angleMode(DEGREES);
 
 
-  // target = createVector(width/4, height/2);
+  // making the moving pieces
   for(let i = 0; i < numFish; i++) {
-    fishy.push(new Fish(random(width), random(height),random(10,40)));
+    h=random(height);
+    w=random(width);
+    fishy.push(new Fish(w, h,random(10,40)));
   }
 
-  for(let i = 0; i < numCoral; i++) {
-    coral.push(new Coral(random(width), random(height/1.5,height)));
+  // for(let i = 0; i < numCoral; i++) {
+  //   coral.push(new Coral(random(width), random(height/1.5,height)));
+  // }
+
+  for(let i = 0; i < numBubbles; i++) {
+    bubbles.push(new Bubbles(random(100,width), random(100,height)));
   }
-  console.log(coral);
+
 
   // background
   for (let xIndex = 0; xIndex < width*4; xIndex+=10) {
@@ -53,19 +66,24 @@ function setup() {
 
 }
 
+
+
 function draw() {
   background(0,100,200);
   image(pg, 0, 0);
 
-
   for (let fish of fishy) {
-    // console.log(fish);
     fish.update();
     fish.show();
   }
+
+
   // for (let c of coral) {
-  //   // console.log(fish);
   //   c.show();
   // }
-}
 
+  for (let bubble of bubbles) {
+    bubble.update();
+    bubble.show();
+  }
+}

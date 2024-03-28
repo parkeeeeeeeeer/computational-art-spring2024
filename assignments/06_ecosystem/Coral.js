@@ -2,12 +2,14 @@ class Coral{
     constructor(x,y){
         this.x=x;
         this.y=y;
-        this.len=random(5,40);
+        this.len=random(10,40);
+        this.hue=random(255);
     }
     show(){
-        fill(0);
+        fill(hue,0,hue);
         translate(this.x,this.y);
         branch(this.len);
+
     
     }
 }
