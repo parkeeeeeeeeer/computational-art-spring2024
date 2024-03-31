@@ -11,6 +11,7 @@ class Cloud {
         this.acc=createVector(0,0);
 
         this.bobForce=random(-0.1,0.1);
+        this.repos=random(25,height-400);
 
         this.max=random(0.00001,.5);
         this.maxForce=0.05;
@@ -37,6 +38,9 @@ class Cloud {
 
        if (this.pos.y<height-400){
         this.pos.y+= this.bobForce;
+       }
+       else{
+        this.pos.y=this.repos;
        }
        
 

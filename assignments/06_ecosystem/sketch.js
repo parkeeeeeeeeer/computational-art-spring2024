@@ -67,7 +67,7 @@ class tree{
     else{
       this.size=random(25,40);
     }
-    
+
   }
 
   show(){
