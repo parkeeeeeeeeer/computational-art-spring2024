@@ -1,89 +1,110 @@
-let fishy = [];
-let numFish = 5;
-let target;
+let clouds =[];
+let numClouds =10;
 
-let coral=[];
-let numCoral=2;
+let count=0;
 
-let bubbles=[];
-let numBubbles=5;
+let forest=[];
+let numTrees= 50;
 
 
-let size =20;
-
-let res;
-let x, y;
-let bnc, spd;
-
-let terainVal=[];
-
-let t=0;
-let waterImg;
+let rays = []
+let numRays= 360/20;
 
 function setup() {
-  createCanvas(600, 600);
-  pg = createGraphics(width, height);
-  angleMode(DEGREES);
+  createCanvas(600,600);
 
-
-  // making the moving pieces
-  for(let i = 0; i < numFish; i++) {
-    h=random(height);
-    w=random(width);
-    fishy.push(new Fish(w, h,random(10,40)));
+  for (let i =0;i<numTrees;i++){
+    forest.push(new tree(random(50,width-50),random(height-125,height)));
   }
 
-  // for(let i = 0; i < numCoral; i++) {
-  //   coral.push(new Coral(random(width), random(height/1.5,height)));
-  // }
-
-  for(let i = 0; i < numBubbles; i++) {
-    bubbles.push(new Bubbles(random(100,width), random(100,height)));
+  for (let t =0;t<numClouds;t++){
+    clouds.push(new Cloud(random(width),random(random(25,50),height-400),random(25,50)));
+    console.log(clouds);
   }
-
-
-  // background
-  for (let xIndex = 0; xIndex < width*4; xIndex+=10) {
-    for (let yIndex = 0; yIndex < height*2; yIndex+=10) {
-      if ((yIndex<height/1.5)){
-        pg.fill(0,map(noise(xIndex,yIndex),0,1,100,150),map(noise(xIndex,yIndex),0,1,150,255));
-        pg.stroke(0,map(noise(xIndex,yIndex),0,1,100,150),map(noise(xIndex,yIndex),0,1,150,255));
-    
-        pg.rect(xIndex,yIndex,size,size);
-      }
-      else{
-        let r = map(noise(xIndex,yIndex),0,1,225,255);
-        let g = map(noise(xIndex,yIndex),0,1,190,220);
-        let b= map(noise(xIndex,yIndex),0,1,144,200);
-        pg.stroke(r, g, b);
-        pg.fill(r, g, b);
-        pg.rect(xIndex,yIndex,size,size);
-        
-      }
-      
-    }
-  }
-
+  
 }
-
-
 
 function draw() {
   background(0,100,200);
-  image(pg, 0, 0);
 
-  for (let fish of fishy) {
-    fish.update();
-    fish.show();
+  // Mountains
+  noStroke();
+  fill(190, 180, 169);;
+  strokeJoin(ROUND);
+  triangle(-25,height,30,height-200,90,height);
+  triangle(0,height,150,height-300,300,height);
+  triangle(200,height,275,height-270,350,height);
+  triangle(250,height,400,height-340,550,height);
+  triangle(400,height,550,height-380,700,height);
+
+  stroke(0);
+  rect(0,height-150,width,height-150);
+
+
+  for (c of clouds){
+    c.update();
+    c.show();
   }
 
 
-  // for (let c of coral) {
-  //   c.show();
-  // }
-
-  for (let bubble of bubbles) {
-    bubble.update();
-    bubble.show();
+  stroke(0);
+  for (t of forest){
+    
+    t.show();
   }
 }
+
+
+class tree{
+
+  constructor(x,y){
+    this.x=x;
+    this.y=y;
+
+    if (this.y < height-75){
+      this.size= random(15,25);
+    }
+    else{
+      this.size=random(25,40);
+    }
+    
+  }
+
+  show(){
+    push();
+    translate(this.x,this.y);
+    branch(this.size);
+    pop();
+  }
+
+}
+
+function branch(l) {
+  count++;
+
+  strokeWeight(1.5);
+  stroke(114,92,66)
+
+  line(0,0,0,-l);
+
+  translate(0, -l);
+
+  l = l * 0.6;
+
+  if (l > 5) {
+    push();
+    rotate(radians(-20 + map(noise(frameCount * 0.01), 0, 1, -2, 2)));
+    branch(l);
+    pop();
+
+    push();
+    rotate(radians(20 + map(noise(frameCount + 100) * 0.01, 0, 1, -2, 2)));
+    branch(l);
+    pop();
+  } else {
+    noStroke();
+    fill(0,130,100); 
+    ellipse(0, 0, 25);
+  }
+}
+
