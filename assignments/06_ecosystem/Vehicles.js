@@ -101,11 +101,21 @@ class Vehicle {
         return steeringForce;
     }
 
-
+    // https://editor.p5js.org/codingtrain/sketches/ry4XZ8OkN
+    flock(boids) {
+        let alignment = this.alignment(boids);
+        let cohesion = this.cohesion(boids);
+        let separation = this.separation(boids);
+    
+    
+        this.acc.add(alignment);
+        this.acc.add(cohesion);
+        this.acc.add(separation);
+      }
 
     update() {
 
-        if (this.pos.y>height-400){
+        if (this.pos.y<height-400){
             let closeVehicles = this.getCloseVehicles();
             // What actions is this agent pursuing?
             let cohesionForce = this.cohesion(closeVehicles);
@@ -118,22 +128,22 @@ class Vehicle {
 
             let alignmentForce = this.alignment(closeVehicles);
             let n = noise(frameCount * 0.1);
-            console.log(n);
+        
             alignmentForce.mult(n);
             this.addForce(alignmentForce);
 
-
+            this.flock(closeVehicles);
             this.dim = map(this.pos.y, 0, height, 2, 20)
+              // MOVEMENT
+            this.vel.add(this.acc); // Apply acceleration (and thus the forces) to vel
+            this.vel.limit(this.maxSpeed);
+            this.pos.add(this.vel); // Apply velocity to position
+
+            this.acc.set(0,0);
         }
-        
-
-
-        // MOVEMENT
-        this.vel.add(this.acc); // Apply acceleration (and thus the forces) to vel
-        this.vel.limit(this.maxSpeed);
-        this.pos.add(this.vel); // Apply velocity to position
-
-        this.acc.set(0,0);
+        else{
+            this.pos.y=random(height-350);
+        }
     }
 
     show() {
