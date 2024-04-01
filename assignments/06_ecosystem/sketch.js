@@ -7,8 +7,8 @@ let forest=[];
 let numTrees= 50;
 
 
-let rays = []
-let numRays= 360/20;
+let vehicles = []
+let numRays= 10;
 
 function setup() {
   createCanvas(600,600);
@@ -22,11 +22,18 @@ function setup() {
     console.log(clouds);
   }
   
+  for (let t =0;t<numRays;t++){
+    vehicles.push(new Vehicle(random(width),random(random(25,50),height-250)));
+  }
 }
 
 function draw() {
   background(0,100,200);
 
+  // Sun
+  noStroke();
+  fill(255,223,180);
+  circle(-25,-25,50);
   // Mountains
   noStroke();
   fill(190, 180, 169);;
@@ -51,6 +58,13 @@ function draw() {
   for (t of forest){
     
     t.show();
+  }
+
+  for (ray of vehicles){
+    ray.update();
+    ray.show();
+    ray.wrap();
+
   }
 }
 

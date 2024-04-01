@@ -1,64 +1,30 @@
-let res;
-let x, y;
-let bnc, spd;
 
 function setup() {
-	createCanvas(windowWidth * 0.95, windowHeight * 0.95);
-	noCursor();
-	res = 20;
-	spd = 10;
-	x = width / res;
-	y = height / res;
-	bnc = 0;
+    createCanvas(600,600);
 }
 
 function draw() {
-	background(255);
+    background(255);
 
-    translate(width/2,height);
-
-    // push()
-    // fill(0);
-    // translate(width/2,height);
-    // branch(10);
-    // pop()
+    let len = 20
 
 
-    // push()
-    // translate(width/2,height);
-    // rotate(PI/4);
-    // branch(10)
-    // pop();
 
-    // push()
-    // translate(width/2,height);
-    // rotate(-PI/4);
-    // branch(10);
-    // pop();
+    translate(width/2,height/2);
 
-    branch(20);
+    circle(0,0,20);
+    ellipse(-20,0,40,20);
+    line(0,0,10,-40)
+    line(0,0,-10,-40)
 
-    
 
-    rotate(PI/4);
-    branch(20);
 
-    rotate(-PI);
-    branch(20);
+    // arc(175, 35, 50, 50, -PI / 6, PI / 6, PIE); // 60 degrees
 
+    // beginShape();
+    // curveVertex(0,0,len,0)
+    // curveVertex(0,0,len,0)
+    // endShape();
+ 
 }
 
-function branch(len) {
-    line(0, 0, 0, -len);
-    translate(0, -len);
-    if (len > 2) {
-        push();
-        rotate(20);
-        branch(len * 0.67);
-        pop();
-        push();
-        rotate(-20);
-        branch(len * 0.67);
-        pop();
-    }
-}
