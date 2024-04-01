@@ -8,7 +8,7 @@ class Vehicle {
         this.acc = createVector(0, 0);
 
         // this.target = target;
-        this.maxSpeed = 1;
+        this.maxSpeed = 2;
         this.maxForce = 0.05;
 
         this.dim = 0 + random(5);
