@@ -50,19 +50,19 @@ function draw() {
 
  rotate((frameCount*.002)*360);
 
-  for (let i =0;i<100;i+=5){
-    let size = map(level,0,1,0,(width*2)-i*4);
+  for (let i =0;i<100;i+=7){
+    let size = map(level,0,1,0,(width*1.5)-i*4);
     if(i%2==0){
       rotate(tan(frameCount*(i*0.0002))*100);
       rect(0,0,size,size,20);
-      rotate(tan(frameCount*(i*0.0002))*100);
+      rotate(cos(frameCount*(i*0.0002))*100);
 
 
     }
     else{
       rotate(sin(frameCount*(i*0.1))*(loopInterval/2));
-      rect(0,0,size,size,random(20));
-      rotate(sin(frameCount*(i*0.1))*(loopInterval/2));
+      rect(0,0,size,size,20);
+      rotate(tan(frameCount*(i*0.1))*(loopInterval/2));
 
       
     }
