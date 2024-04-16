@@ -7,7 +7,7 @@ let loop;
 
 let note = 0;
 
-
+let amp;
 let sixteenth = 0;
 
 let scale = "chinese";
@@ -29,35 +29,50 @@ function setup() {
   synth = new p5.PolySynth();
   loop = new p5.SoundLoop(soundLoop, loopInterval/4);
 
+  amp = new p5.Amplitude();
 
 
   lastTime = millis();
-
-  button = createButton('Play');
-  button.mousePressed();
 }
 
 function draw() {
   background(255,100,0,.02);
 
-  let deltaTime = millis() - prevTimeStamp;
-
+  let level = amp.getLevel();
+  let hue = map(level,0,1,0,360);
 
   prevTimeStamp = millis();
 
   noFill();
-  stroke(0,0,100);
+  stroke(hue,hue,100);
 
  translate(width/2,height/2);
 
-  for (let i =0;i<200;i++){
+ rotate((frameCount*.002)*360);
+
+  for (let i =0;i<100;i+=5){
+    let size = map(level,0,1,0,(width*2)-i*4);
     if(i%2==0){
-      rotate(tan(frameCount*(i*0.0002))*(loopInterval/4));
+      rotate(tan(frameCount*(i*0.0002))*100);
+      rect(0,0,size,size,20);
+      rotate(tan(frameCount*(i*0.0002))*100);
+
+
     }
     else{
-      rotate(sin(frameCount*(i*0.1))*(loopInterval/4));
+      rotate(sin(frameCount*(i*0.1))*(loopInterval/2));
+      rect(0,0,size,size,random(20));
+      rotate(sin(frameCount*(i*0.1))*(loopInterval/2));
+
+      
     }
-    rect(0,0,width-i*3,height-i*3,20);
+
+    
+
+    // rotate(sin(frameCount*(i*0.1))*100);
+    // rect(0,0,size,size,20);
+    // rotate(tan(frameCount*(i*0.0002))*360);
+
 
   }
 }
@@ -65,17 +80,18 @@ function draw() {
 function soundLoop(timeFromNow) {
 
   
-  if (sixteenth % 4 === 0) {
+  if (sixteenth % 6 === 0) {
     kickSample.play(timeFromNow);
 
   }
 
   note = floor(random(0, scales[scale].length));
 
-  if (random() < 0.5) {
-    synth.play(midiToFreq(60 + scales[scale][note]), map(cos(frameCount*(note*.0002)),-1,1,.1,4), timeFromNow, random(0.1, 0.4));
-    if (random() < 0.2) {
-      synth.play(midiToFreq(60 + scales[scale][note] + 3), map(sin(frameCount*(note*.1)),-1,1,.1,.9), timeFromNow, random(0.1, 0.4));
+  if (random() < 2) {
+
+    synth.play(midiToFreq(40 + scales[scale][note]), map(cos(frameCount*(note*.002)),-1,1,.1,4), timeFromNow, random(0.1, 0.4));
+    if (random() < 3.9) {
+      synth.play(midiToFreq(70 + scales[scale][note] + 3), map(sin(frameCount*(note*.1)),-1,1,.1,.9), timeFromNow, random(0.1, 0.4));
     }
   }
   noise+=0.04
