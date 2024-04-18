@@ -17,7 +17,7 @@ let noise=0;
 let loopInterval = 1; // Loop interval of 1 second corresponds to 60 BPM
 
 function preload() {
-  kickSample = loadSound("https://github.com/parkeeeeeeeeer/computational-art-spring2024/blob/main/assignments/08_sound/cord.wav");
+  kickSample = loadSound("./cord.wav");
 }
 
 function setup() {
@@ -39,7 +39,7 @@ function draw() {
   background(255,100,0,.02);
 
   let level = amp.getLevel();
-  let hue = map(level,0,1,0,360);
+  let hue = map(level,0,1,100,360);
 
   prevTimeStamp = millis();
 
@@ -79,8 +79,10 @@ function draw() {
 
 function soundLoop(timeFromNow) {
 
+  synth.play(midiToFreq(map(cos(note),0,1,30,70) + scales[scale][note]), map(cos(frameCount*(note*.002)),-1,1,.1,4), timeFromNow, random(0.1, 0.4));
+
   
-  if (sixteenth % 6 === 0) {
+  if (sixteenth % 8 === 0) {
     kickSample.play(timeFromNow);
 
   }
@@ -88,11 +90,8 @@ function soundLoop(timeFromNow) {
   note = floor(random(0, scales[scale].length));
 
   if (random() < 2) {
+    synth.play(midiToFreq(map(tan(note),0,1,10,50) + scales[scale][note] + 3), map(sin(frameCount*(note*.1)),-1,1,.1,.9), timeFromNow, random(0.1, 0.4));
 
-    synth.play(midiToFreq(40 + scales[scale][note]), map(cos(frameCount*(note*.002)),-1,1,.1,4), timeFromNow, random(0.1, 0.4));
-    if (random() < 3.9) {
-      synth.play(midiToFreq(70 + scales[scale][note] + 3), map(sin(frameCount*(note*.1)),-1,1,.1,.9), timeFromNow, random(0.1, 0.4));
-    }
   }
   noise+=0.04
   note++;
