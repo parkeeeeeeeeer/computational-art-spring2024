@@ -17,7 +17,7 @@ let noise=0;
 let loopInterval = 1; // Loop interval of 1 second corresponds to 60 BPM
 
 function preload() {
-  kickSample = loadSound("./cord.wav");
+  kickSample = loadSound("https://github.com/parkeeeeeeeeer/computational-art-spring2024/blob/main/assignments/08_sound/cord.wav");
 }
 
 function setup() {
