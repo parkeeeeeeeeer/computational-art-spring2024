@@ -10,7 +10,7 @@ let note = 0;
 let amp;
 let sixteenth = 0;
 
-let scale = "chinese";
+let scale = "japanese";
 let delay;
 let noise=0;
 
