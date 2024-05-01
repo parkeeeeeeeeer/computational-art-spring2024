@@ -1,53 +1,114 @@
 
-let r = 100;
 
-let dots=[];
-let numDots=100;
 
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  let t = 0;
-  for (let i=0;i<numDots;i++){
-    let n = noise(t);
-    let x = map(i,0,numDots,0,width);
-    let y = height/2;
-    dots.push(new Dot(x*n,y*n,r*n));
-    t+=0.005
-  }
-}
+// let dim =32
 
-function draw() {
-  background(255);
-  for (let dot of dots){
-      dot.update();
-      dot.draw();
-  }
-  
-}
-class Dot{
-  constructor(x,y,r){
-    this.radius=r;
-    this.position = createVector(x,y);
-    this.velocity = createVector(random(-20,20),random(-20,20));
+// function setup() {
+//     createCanvas(400,400, WEBGL)
+//     angleMode(DEGREES)
+// }
+
+// function draw() {
+//     background(255)
     
-  }
-  draw(){
-    push();
-    noFill();
-    stroke(100,100,200);
-    translate(this.position.x,this.position.y);
-    rect(0,0,this.radius,this.radius,2);
-    pop();
-  }
-  update(){
-    this.position.add(this.velocity);
-    // This code is from 1/22/2024 class.
-    if (this.position.x > width || this.position.x < 0) {
-      this.velocity.x *= -1;
-    }
+
+//     translate(width)
+//     push()
+//     for (let i = 0; i < dim; i++) {
+//       for (let j = 0; j < dim; j++) {
+//         for (let k = 0; k < dim; k++) {
+//           let x = map(i,0,dim,-100,100)
+//           let y = map(j,0,dim,-100,100)
+//           let z = map(k,0,dim,-100,100)
+          
+//           stroke(0)
+//           point(x,y,z)
+
+//         }
+
+//       }
+
+
+//     }
   
-    if (this.position.y > height || this.position.y < 0) {
-      this.velocity.y *= -1;
-    }
-  }
-}
+//   pop()
+
+// }
+
+// function mousePressed(){
+
+// }
+
+
+
+
+// let buff = 50;
+// let sizeOfGrid=30;
+
+// let cols, rows;
+// let scl = 30;
+// let terrain=[];
+// let size = 300;
+
+// function setup() {
+//     createCanvas(400,400, WEBGL)
+//     angleMode(DEGREES)
+
+
+//     cols = size / scl;
+//     rows = size / scl;
+  
+//     for (var x = 0; x < cols; x++) {
+//       terrain[x] = [];
+//       for (var y = 0; y < rows; y++) {
+//         if(random()<.5){
+//           terrain[x][y] = 100; //specify a default value for now
+
+//         }
+//         else{terrain[x][y] = 0; }//specify a default value for now
+//       }
+//     }
+// }
+
+// function draw() {
+//     background(255)
+
+//     // All of this is to rotate
+//     // rotateX((frameCount*.001)*40)
+//     // rotateY((frameCount*.001)*20)
+//     // rotateZ((frameCount*.001)*90)
+
+
+//     // rotateX()
+
+//     let wSize = width-buff*2;
+//     let hSize = height-buff*2;
+//     let numSquares= wSize/sizeOfGrid;
+
+//     push();
+//     noFill();
+//     rect(-wSize/2,-hSize/2,size-scl,size-scl)
+
+//     translate(-size / 2, -size / 2);
+    
+//     for (var y = 0; y < rows - 1; y++) {
+//         beginShape(TRIANGLE_STRIP);
+//         for (var x = 0; x < cols-1; x++) { 
+//             vertex(x * scl, y * scl, terrain[x][y]);
+//             vertex((x + 1) * scl, (y + 1) * scl, terrain[x + 1][y + 1]); // Bottom-right
+//             vertex((x + 1) * scl, y * scl, terrain[x + 1][y]); // Top-right
+//             vertex(x * scl, (y + 1) * scl, terrain[x][y + 1]);
+
+//         }
+
+
+//         endShape();
+//     }
+  
+//   pop();
+
+// }
+
+// function mousePressed(){
+
+// }

@@ -9,6 +9,8 @@ let note = 0;
 
 let amp;
 let sixteenth = 0;
+let scaleList=[];
+
 
 let scale = "japanese";
 let delay;
@@ -31,8 +33,13 @@ function setup() {
 
   amp = new p5.Amplitude();
 
-
   lastTime = millis();
+
+  for (var key in scales) {
+    scaleList.push(key);
+  }
+
+
 }
 
 function draw() {
@@ -84,7 +91,6 @@ function soundLoop(timeFromNow) {
   
   if (sixteenth % 8 === 0) {
     kickSample.play(timeFromNow);
-
   }
 
   note = floor(random(0, scales[scale].length));
