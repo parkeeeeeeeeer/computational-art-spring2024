@@ -1,89 +1,102 @@
-let terrain
-let img
-let backImg
+let terrain;
+let img;
+let backImg;
 let imgWidth;
-let imgHeight
+let imgHeight;
 
-let scl = 50
+let scl = 50;
 
-let mic, fft
-let song
+let mic, fft;
+let song;
+let time = 0;
+let obj;
+
+let moonDiameter = 100; // Diameter of the moon
+let moonX =-100;
+let moonY = -100; // Position of the moon
+let slider1;
+let slider2;
+
 
 function preload() {
   // Load your song here
-  song = loadSound('wave.wav')
-  img = loadImage('water.jpg')
+  song = loadSound('wave.wav');
+  img = loadImage('water.jpg');
   // backImg = loadImage('dusk.png')
 
 }
 
 function setup() {
-    createCanvas(400,400, WEBGL)
-    angleMode(DEGREES)
-    noiseDetail(2)
+  createCanvas(400,400, WEBGL);
+  angleMode(DEGREES);
+  noiseDetail(2);
       
-    amp = new p5.Amplitude()
-    amp.setInput(song)
+  amp = new p5.Amplitude();
+  amp.setInput(song);
   
-    fft = new p5.FFT()
-    fft.setInput(song)
-  
-    // Play the song
-    // song.play();
-//     terrain = new Terrain(scl,0);
+  slider1 = createSlider(0,30)
+  slider2 = createSlider(0,360)
+
+  slider1.position(10,0)
+  slider1.size(100)
+
+  slider2.position(10,20)
+  slider2.size(100)
+
+
+
 }
 
 function draw() {
-    background(255)
-    // image(backImg,-width/2,-height+170)
+  background(	11, 34, 51);
+
+  noStroke();
+  fill(230,230,180);
+  ellipse(-100,-100,100,100);
+
+  let scale = slider1.value();
+  let rotation = slider2.value();
+
+  // text('Wave Size', slider1.x * 2 + slider1.width, 35);
+  // text('Grid Angle', slider2.x * 2 + slider2.width, 65);
+
+
+  let xOff=0;
+  let index = 0;
+  let start = frameCount *.01;
+  let level = amp.getLevel();
+  
+  noStroke();
+  fill(255);
+  translate(-100,160,-200);
+  rotateX(80);
+  rotateZ(90);
+  
     
 
-    // img.loadPixels()
+  for(let x=(-width/2);x<=width/2;x+=scl){
+    let yOff=0;
+    for(let y=(-height);y<=height/2;y+=scl){
+      let h= map(noise(xOff+start,yOff+start),0,1,-scl*(level*scale),-scl*1.5);
 
-    let xOff=0
-    let index = 0
-    let start = frameCount *.01
-    let level = amp.getLevel();
-    console.log(start)
-    noStroke()
-    fill(255)
-    // noFill()
-    translate(-100,120,-200)
-    rotateX(70)
-    rotateZ(90)
-    
-   
-    
+      push();
+      translate(x,y,-h/2);
+      texture(img);
+      // rotate(map(noise(noise(xOff+start,yOff+start),0,1),0,1,50,100))
+      rotate(rotation)
+      box(scl,scl,h);
+      pop();
 
-    for(let x=(-width/2);x<=width/2;x+=scl){
-      let yOff=0
-      for(let y=(-height);y<=height/2;y+=scl){
-        let h= map(noise(xOff+start,yOff+start),0,1,-scl*level*15,-scl)
-        // let h = map(sin(xOff + start) * cos(yOff + start), -1, 1, -scl * 5, scl) * level
-        
-        
-        // let r = map(x,-width/2,width/2,0,255)
-        // let g = map(y,-height/2,height/2,0,255)
-        // let b = map(h,-scl*2,0,0,255)
-
-
-        // fill(r, g, b, alpha);
-
-        push()
-        // fill(r,g,b)
-        translate(x,y,-h/2)
-        texture(img);
-        box(scl,scl,h)
-        pop()
-
-        yOff+=.1
-        
-      }
-      xOff+=.1
-      
-     
+      yOff+=.1;
     }
+    xOff+=.1;
+    rotateY((map(level,0,1,0,10)));
+    rotate((map(level,0,1,0,5)));  
+  }
+
+
 }
+
 
 function mousePressed(){
 
@@ -95,16 +108,58 @@ function mousePressed(){
 
 }
 
+function drawMoon() {
+  fill(255);
+  ellipse(moonX, moonY, moonDiameter, moonDiameter);
+}
+
+function updateMoonPhase() {
+  // Update moon phase based on time
+  moonPhase = (millis() / (29.53 * 24 * 60 * 60 * 1000)) % 1; // 29.53 days for a complete lunar cycle
+
+  // Adjust moon appearance based on moon phase
+  let moonColor = lerpColor(color(255), color(0), moonPhase); // New moon to full moon (white to black)
+  fill(moonColor);
+  noStroke();
+  ellipse(moonX, moonY, moonDiameter, moonDiameter);
+}
 
 
-        // // let index = (x + y * img.width) * 4;
-        // // let r = img.pixels[index];
-        // // let g = img.pixels[index+1];
-        // // let b = img.pixels[index+2];
-        // // let a = img.pixels[index+3];
+// class Box {
+//   constructor(x, y, z, size) {
+//     this.x = x;
+//     this.y = y;
+//     this.z = z;
+//     this.size = size;
+//     this.velocity = createVector(0, 0); // Initial velocity
+//     this.gravity = createVector(0, 0.1); // Gravity force
+//     this.buoyancy = createVector(0, -0.05); // Buoyancy force
 
-        // let avg = (r+g+b) / 3;
-        // let alpha = 255;
-        // // if (avg > 120) {
-        // //   alpha = 0;
-        // // }
+//   }
+//   update(waterLevel){
+//      // Apply gravity force
+//      this.velocity.add(this.gravity);
+    
+//      // If the box is below the water level, apply buoyancy force
+//      if (this.y + this.size / 2 > waterLevel) {
+//        let displacement = this.y + this.size / 2 - waterLevel;
+//        let buoyantForce = this.buoyancy.copy().mult(displacement);
+//        this.velocity.add(buoyantForce);
+//      }
+     
+//      // Update position based on velocity
+//      this.y += this.velocity.y;
+     
+//      // Prevent the box from sinking too far below the water level
+//      if (this.y + this.size / 2 > waterLevel) {
+//        this.y = waterLevel - this.size / 2;
+//      }
+
+//   }
+//   display() {
+//     push();
+//     translate(this.x, this.y, this.z);
+//     box(this.scale);
+//     pop();
+//   }
+// }
